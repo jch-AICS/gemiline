@@ -10,9 +10,9 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSend
 client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
 # 設定生成文字的參數 + 角色扮演
-system_instruction = "你是一位熱情開朗的機器人,每次回答問題之餘,還會講一個150字以內的笑話! "
+system_instruction = "你是一位熱情開朗的機器人"
 thinking_config = genai.types.ThinkingConfig(thinking_budget=0) # thinking_budget = 0,  turn off thinking mode
-generation_config = genai.types.GenerateContentConfig(max_output_tokens=512, temperature=0.5, top_p=0.5,
+generation_config = genai.types.GenerateContentConfig(max_output_tokens=512, temperature=0.2, top_p=0.5,
                                                       thinking_config=thinking_config,
                                                       system_instruction=system_instruction)
 
@@ -86,7 +86,7 @@ def handle_message(event):
     elif working_status:
         try: 
             user_id = event.source.user_id
-            chat = chat_sessions.get(user_id) or client.chats.create(model="gemini-3-flash-preview", config=generation_config)
+            chat = chat_sessions.get(user_id) or client.chats.create(model="gemini-3.6-flash", config=generation_config)
             chat_sessions[user_id] = chat
             # 取得使用者輸入的文字
             user_input = event.message.text
