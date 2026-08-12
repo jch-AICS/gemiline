@@ -97,9 +97,9 @@ def handle_message(event):
                 out = response.text
             else:
                 out = "Gemini沒答案!請換個說法！"
-        except:
-            # 處理錯誤
-            out = "Gemini執行出錯!請換個說法！" 
+       except Exception as e:
+        print("Gemini錯誤：", e)
+        out = f"Gemini執行出錯：{e}"
   
         # 回覆生成結果
         line_bot_api.reply_message(
