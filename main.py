@@ -87,7 +87,7 @@ def handle_message(event):
         try:
             user_id = event.source.user_id
             chat = chat_sessions.get(user_id) or client.chats.create(
-                model="gemini-3.6-flash",
+                model="Gemini-2.5-flash",
                 config=generation_config
             )
             chat_sessions[user_id] = chat
