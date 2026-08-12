@@ -82,22 +82,29 @@ def handle_message(event):
         )
         return
        
-    # 檢查是否正在與使用者交談
+       # 檢查是否正在與使用者交談
     elif working_status:
-        try: 
+        try:
             user_id = event.source.user_id
-            chat = chat_sessions.get(user_id) or client.chats.create(model="gemini-3.6-flash", config=generation_config)
+            chat = chat_sessions.get(user_id) or client.chats.create(
+                model="gemini-3.6-flash",
+                config=generation_config
+            )
             chat_sessions[user_id] = chat
+
             # 取得使用者輸入的文字
             user_input = event.message.text
-            # 發送使用者的輸入到聊天會話並獲得回應
+
+            # 發送使用者的輸入到聊天室並獲得回應
             response = chat.send_message(user_input)
-            if (response.text != None):
+
+            if response.text != None:
                 # 取得生成結果
                 out = response.text
             else:
                 out = "Gemini沒答案!請換個說法！"
-               except Exception as e:
+
+        except Exception as e:
             print("Gemini錯誤：", e)
             out = f"Gemini執行出錯：{e}"
   
